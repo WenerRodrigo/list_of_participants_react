@@ -1,4 +1,11 @@
-import { Search } from "lucide-react";
+import {
+  Search,
+  MoreHorizontal,
+  ChevronsLeft,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsRight,
+} from "lucide-react";
 
 export function AttendeeList() {
   return (
@@ -8,7 +15,7 @@ export function AttendeeList() {
         <div className="flex items-center gap-3 px-3 w-72 py-1.5 border border-white/10 bg-transparent rounded-lg text-sm">
           <Search className="size-4 text-emerald-300" />
           <input
-            className="bg-transparent flex-1 outline-none"
+            className="bg-transparent flex-1 outline-none text-sm border-0 p-0"
             type="text"
             placeholder="Buscar Participante"
           />
@@ -19,30 +26,36 @@ export function AttendeeList() {
         <table className="w-full">
           <thead>
             <tr className="border-b border/10">
-              <th className="py-3 px-4 text-sm font-semibold text-left">
-                <input type="checkbox" />
+              <th
+                style={{ width: 48 }}
+                className="py-3 px-4 text-sm font-semibold text-left"
+              >
+                <input type="checkbox" className="size-4 bg-black/20 rounded border border-white/10"/>
               </th>
+              <th className="py-3 px-4 text-sm font-semibold text-left">
+                Código
+              </th>
+              <th className="py-3 px-4 text-sm font-semibold text-left">
+                Participante
+              </th>
+              <th className="py-3 px-4 text-sm font-semibold text-left">
+                Data da Inscrição
+              </th>
+              <th className="py-3 px-4 text-sm font-semibold text-left">
+                Data do check-in
+              </th>
+              <th
+                style={{ width: 64 }}
+                className="py-3 px-4 text-sm font-semibold text-left"
+              ></th>
             </tr>
-            <th className="py-3 px-4 text-sm font-semibold text-left">
-              Código
-            </th>
-            <th className="py-3 px-4 text-sm font-semibold text-left">
-              Participante
-            </th>
-            <th className="py-3 px-4 text-sm font-semibold text-left">
-              Data da Inscrição
-            </th>
-            <th className="py-3 px-4 text-sm font-semibold text-left">
-              Data do check-in
-            </th>
-            <th></th>
           </thead>
           <tbody>
             {Array.from({ length: 8 }).map((_, i) => {
               return (
-                <tr key={i} className="border-b border-white/10">
+                <tr key={i} className="border-b border-white/10 hover:bg-white/5">
                   <td className="py-3 px-4 text-sm text-zinc-300">
-                    <input type="checkbox" />
+                    <input type="checkbox" className="size-4 bg-black/20 rounded border border-white/10"/>
                   </td>
                   <td className="py-3 px-4 text-sm text-zinc-300">123456</td>
                   <td className="py-3 px-4 text-sm text-zinc-300">
@@ -57,9 +70,14 @@ export function AttendeeList() {
                     7 dias atrás
                   </td>
                   <td className="py-3 px-4 text-sm text-zinc-300">
-                    3 dis atrás
+                    {" "}
+                    {/* verificar se realmente tem essa coluna... */}3 dis atrás
                   </td>
-                  <td></td>
+                  <td className="py-3 px-4 text-sm text-zinc-300">
+                    <button className="bg-black/20 border border-white/10 rounded-md p-1.5">
+                      <MoreHorizontal className="size-4" />
+                    </button>
+                  </td>
                 </tr>
               );
             })}
@@ -76,7 +94,29 @@ export function AttendeeList() {
                 className="py-3 px-4 text-sm font-semibold text-right"
                 colSpan={3}
               >
-                Página 1 de 25
+                <div className="inline-flex items-center gap-2">
+                  <span>Página 1 de 25</span>
+                  <div className="flex gap-1.5">
+                    <button className="bg-white/10 border border-white/10 rounded-md p-1.5">
+                      <ChevronsLeft className="size-4" />
+                    </button>
+                  </div>
+                  <div>
+                    <button className="bg-white/10 border border-white/10 rounded-md p-1.5">
+                      <ChevronLeft className="size-4" />
+                    </button>
+                  </div>
+                  <div>
+                    <button className="bg-white/10 border border-white/10 rounded-md p-1.5">
+                      <ChevronRight className="size-4" />
+                    </button>
+                  </div>
+                  <div>
+                    <button className="bg-white/10 border border-white/10 rounded-md p-1.5">
+                      <ChevronsRight className="size-4" />
+                    </button>
+                  </div>
+                </div>
               </td>
             </tr>
           </tfoot>
