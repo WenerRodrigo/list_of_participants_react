@@ -9,8 +9,16 @@ import {
 import { IconButton } from "./icon-button";
 import { Table } from "./table/table";
 import { TableHeader } from "./table/table-header";
+import { TableCell } from "./table/table-cell";
+import { TableRow } from "./table/table-row";
+import { ChangeEvent, useState } from "react";
 
 export function AttendeeList() {
+  const [search, setSearch] = useState("");
+  function onSearchINputChanged(event: ChangeEvent<HTMLInputElement>) {
+    setSearch(event.target.value);
+  }
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-3 items-center">
@@ -18,9 +26,10 @@ export function AttendeeList() {
         <div className="flex items-center gap-3 px-3 w-72 py-1.5 border border-white/10 bg-transparent rounded-lg text-sm">
           <Search className="size-4 text-emerald-300" />
           <input
+            onChange={onSearchINputChanged}
             className="bg-transparent flex-1 outline-none text-sm border-0 p-0"
             type="text"
-            placeholder="Buscar Participante"
+            placeholder="Buscar Participantes"
           />
         </div>
       </div>
@@ -47,41 +56,42 @@ export function AttendeeList() {
         <tbody>
           {Array.from({ length: 8 }).map((_, i) => {
             return (
-              <tr key={i} className="border-b border-white/10 hover:bg-white/5">
-                <td className="py-3 px-4 text-sm text-zinc-300">
+              <TableRow
+                key={i}
+                className="border-b border-white/10 hover:bg-white/5"
+              >
+                <TableCell>
                   <input
                     type="checkbox"
                     className="size-4 bg-black/20 rounded border border-white/10"
                   />
-                </td>
-                <td className="py-3 px-4 text-sm text-zinc-300">123456</td>
-                <td className="py-3 px-4 text-sm text-zinc-300">
+                </TableCell>
+                <TableCell>123456</TableCell>
+                <TableCell>
                   <div className="flex flex-col gap-4">
                     <span className="font-bold text-white">Wener Rodrigo</span>
                     <span>wener@uol.com.br</span>
                   </div>
-                </td>
-                <td className="py-3 px-4 text-sm text-zinc-300">
-                  7 dias atrás
-                </td>
-                <td className="py-3 px-4 text-sm text-zinc-300">3 dis atrás</td>
-                <td className="py-3 px-4 text-sm text-zinc-300">
+                </TableCell>
+                <TableCell>7 dias atrás</TableCell>
+                <TableCell>3 dis atrás</TableCell>
+                <TableCell>
                   <IconButton transparent>
                     <MoreHorizontal className="size-4" />
                   </IconButton>
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             );
           })}
         </tbody>
         <tfoot>
           <tr>
-            <td
+            <TableCell
               className="py-3 px-4 text-sm font-semibold text-left"
               colSpan={3}
             >
               Mostrando 1 de 25 itens
-            </td>
+            </TableCell>
             <td
               className="py-3 px-4 text-sm font-semibold text-right"
               colSpan={3}

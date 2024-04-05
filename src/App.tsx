@@ -1,4 +1,4 @@
-import { AttendeeList } from "./components/attendee-lis";
+import { AttendeeList } from "./components/attendee-list";
 import { Header } from "./components/header";
 
 
