@@ -12,9 +12,20 @@ import { TableHeader } from "./table/table-header";
 import { TableCell } from "./table/table-cell";
 import { TableRow } from "./table/table-row";
 import { ChangeEvent, useState } from "react";
+import { attendees } from "../data/attendees";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/pt-br";
+
+dayjs.extend(relativeTime);
+dayjs.locale("pt-br");
 
 export function AttendeeList() {
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+
+
+  
   function onSearchINputChanged(event: ChangeEvent<HTMLInputElement>) {
     setSearch(event.target.value);
   }
@@ -54,10 +65,10 @@ export function AttendeeList() {
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 8 }).map((_, i) => {
+          {attendees.map((attendee) => {
             return (
               <TableRow
-                key={i}
+                key={attendee.id}
                 className="border-b border-white/10 hover:bg-white/5"
               >
                 <TableCell>
@@ -66,15 +77,17 @@ export function AttendeeList() {
                     className="size-4 bg-black/20 rounded border border-white/10"
                   />
                 </TableCell>
-                <TableCell>123456</TableCell>
+                <TableCell>{attendee.id}</TableCell>
                 <TableCell>
                   <div className="flex flex-col gap-4">
-                    <span className="font-bold text-white">Wener Rodrigo</span>
-                    <span>wener@uol.com.br</span>
+                    <span className="font-bold text-white">
+                      {attendee.name}
+                    </span>
+                    <span>{attendee.email}</span>
                   </div>
                 </TableCell>
-                <TableCell>7 dias atrás</TableCell>
-                <TableCell>3 dis atrás</TableCell>
+                <TableCell>{dayjs().to(attendee.createdAt)}</TableCell>
+                <TableCell>{dayjs().to(attendee.checkedInAt)}</TableCell>
                 <TableCell>
                   <IconButton transparent>
                     <MoreHorizontal className="size-4" />
