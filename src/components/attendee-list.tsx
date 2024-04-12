@@ -28,10 +28,25 @@ interface Attendee {
 }
 
 export function AttendeeList() {
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
   const [total, setTotal] = useState(0);
+
+  const [search, setSearch] = useState(() => {
+    const url = new URL(window.location.toString());
+    if (url.searchParams.has("search")) {
+      return url.searchParams.get("search") || "";
+    }
+    return "";
+  });
+
+  const [page, setPage] = useState(() => {
+    const url = new URL(window.location.toString());
+
+    if (url.searchParams.has("page")) {
+      return Number(url.searchParams.get("page"));
+    }
+    return 1;
+  });
 
   const totalPages = Math.ceil(total / 10);
 
@@ -41,7 +56,7 @@ export function AttendeeList() {
     );
 
     url.searchParams.set("pageIndex", String(page - 1));
-    if (search.length > 0) {
+    if (search.length > 1) {
       url.searchParams.set("query", search);
     }
 
@@ -53,25 +68,41 @@ export function AttendeeList() {
       });
   }, [page, search]);
 
+  function setCurrentSearch(search: string) {
+    const url = new URL(window.location.toString());
+    url.searchParams.set("search", search);
+    window.history.pushState({}, "", url.toString());
+    setSearch(search);
+  }
+
+  function setCurrentPage(page: number) {
+    const url = new URL(window.location.toString());
+    url.searchParams.set("page", String(page));
+    window.history.pushState({}, "", url.toString());
+
+    setPage(page);
+  }
+
   function onSearchINputChanged(event: ChangeEvent<HTMLInputElement>) {
-    setSearch(event.target.value);
-    setPage(1);
+    setCurrentSearch(event.target.value);
+    setCurrentPage(1);
   }
 
   function nextPage() {
-    setPage(page + 1);
-  }
-
-  function previousPage() {
-    setPage(page - 1);
+    setCurrentPage(page + 1);
   }
 
   function lastPage() {
-    setPage(totalPages);
+    setCurrentPage(totalPages);
+  }
+  
+  function previousPage() {
+    setCurrentPage(page - 1);
   }
 
+
   function firstPage() {
-    setPage(1);
+    setCurrentPage(1);
   }
 
   return (
@@ -82,7 +113,7 @@ export function AttendeeList() {
           <Search className="size-4 text-emerald-300" />
           <input
             onChange={onSearchINputChanged}
-            className="bg-transparent flex-1 outline-none text-sm border-0 p-0"
+            className="bg-transparent flex-1 outline-none text-sm border-0 p-0 focus:ring-0"
             type="text"
             placeholder="Buscar Participantes"
           />
